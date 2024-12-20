@@ -1,0 +1,5 @@
+- Запуск проекта:  npm run start:dev
+- Просмотр документации - swagger: http://localhost:3000/docs
+- Регистрация нового пользователя: http://localhost:3000/user/registration
+- Получение токена зарегистрированным пользователем: http://localhost:3000/auth/login
+- Отправка токена на почту: http://localhost:3000/auth/link
