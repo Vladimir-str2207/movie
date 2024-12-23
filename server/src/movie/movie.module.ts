@@ -11,12 +11,15 @@ import { UserService } from 'src/user/user.service';
 import { MailService } from 'src/mail/mail.service';
 import { PlaylistService } from 'src/playlist/playlist.service';
 import { Playlist, PlaylistSchema } from 'src/playlist/playlist.schema';
+import { MailConfigService } from 'src/mail/mail.constants';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Movie.name, schema: MovieSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    MongooseModule.forFeature([{ name: Playlist.name, schema: PlaylistSchema }]),
+    MongooseModule.forFeature([
+      { name: Playlist.name, schema: PlaylistSchema },
+    ]),
   ],
   controllers: [MovieController],
   providers: [
@@ -26,7 +29,8 @@ import { Playlist, PlaylistSchema } from 'src/playlist/playlist.schema';
     ConfigService,
     UserService,
     MailService,
-    PlaylistService
+    PlaylistService,
+    MailConfigService,
   ],
 })
 export class MovieModule {}
