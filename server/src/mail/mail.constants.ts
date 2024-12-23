@@ -1,19 +1,35 @@
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+@Injectable()
+export class MailConfigService {
+  constructor(private configService: ConfigService) {}
+  get MAIL_PORT() {
+    return this.configService.get<number>('MAIL_PORT');
+  }
+  get FROM_EMAIL() {
+    return this.configService.get<string>('FROM_EMAIL');
+  }
 
-const configService = new ConfigService();
+  get MAIL_SERVER(){
+    return this.configService.get<string>('MAIL_SERVER');
+  }
 
-export const FROM_EMAIL = configService.get('FROM_EMAIL');
-const MAIL_SERVER = configService.get('MAIL_SERVER');
-const MAIL_TOKEN = configService.get('MAIL_TOKEN');
-const MAIL_PORT = configService.get('MAIL_PORT');
-export const SETTINGS = {
-  host: MAIL_SERVER,
-  port: MAIL_PORT,
-  secure: true,
-  logger: true,
-  auth: {
-    user: FROM_EMAIL,
-    pass: MAIL_TOKEN,
-  },
-};
+  get MAIL_TOKEN(){
+    return this.configService.get<string>('MAIL_TOKEN');
+  }
+
+  get SETTINGS() {
+    return {
+      host: this.MAIL_SERVER,
+      port: this.MAIL_PORT,
+      secure: true,
+      logger: true,
+      auth: {
+        user: this.FROM_EMAIL,
+        pass: this.MAIL_TOKEN,
+      },
+    };
+  }
+  
+}

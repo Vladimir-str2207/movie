@@ -15,6 +15,7 @@ import { MovieService } from 'src/movie/movie.service';
 import { DirectorService } from 'src/director/director.service';
 import { MailService } from 'src/mail/mail.service';
 import { Playlist, PlaylistSchema } from 'src/playlist/playlist.schema';
+import { MailConfigService } from 'src/mail/mail.constants';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { Playlist, PlaylistSchema } from 'src/playlist/playlist.schema';
     MovieService,
     DirectorService,
     MailService,
+    MailConfigService,
   ],
 })
 export class AuthModule {}

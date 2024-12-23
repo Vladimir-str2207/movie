@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { SETTINGS, FROM_EMAIL } from './mail.constants';
+import { MailConfigService } from './mail.constants';
 
 interface ISendMessage {
   email: string;
@@ -12,13 +12,14 @@ interface ISendMessage {
 export class MailService {
   private client;
 
-  constructor() {
-    this.client = nodemailer.createTransport(SETTINGS);
+  constructor(private mailConfigService: MailConfigService) {
+    const mailSettings = this.mailConfigService.SETTINGS;
+    this.client = nodemailer.createTransport(mailSettings);
   }
 
   async sendMessage({ email, subject, html }: ISendMessage) {
     await this.client.sendMail({
-      from: FROM_EMAIL,
+      from: this.mailConfigService.FROM_EMAIL,
       to: email,
       subject,
       html,

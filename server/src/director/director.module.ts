@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserService } from 'src/user/user.service';
 import { MailService } from 'src/mail/mail.service';
+import { MailConfigService } from 'src/mail/mail.constants';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MailService } from 'src/mail/mail.service';
     ConfigService,
     UserService,
     MailService,
+    MailConfigService,
   ],
 })
 export class DirectorModule {}
