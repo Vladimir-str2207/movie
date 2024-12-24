@@ -25,10 +25,28 @@ export class UserService {
     return this.userModel.findOne({ email });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
-    return this.userModel.findByIdAndUpdate(id, updateUserDto, {
-      new: true,
-    });
+  async update(
+    id: string,
+    username?: string,
+    playlists?: string[],
+  ): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { username, playlists },
+      {
+        new: true,
+      },
+    );
+  }
+
+  async updateRole(id: string, roles?: string[]): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { roles },
+      {
+        new: true,
+      },
+    );
   }
 
   async remove(id: string) {

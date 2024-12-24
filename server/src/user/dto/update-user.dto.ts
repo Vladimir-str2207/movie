@@ -10,6 +10,17 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   username?: string;
 
   @ApiProperty({
+    required: false,
+    enum: ['admin', 'user'],
+    default: 'user',
+    type: [String],
+    description: 'роли',
+    example: ['admin'],
+  })
+  @IsArray()
+  roles?: string[];
+  
+  @ApiProperty({
     type: [String],
     description: 'Id плейлистов',
     example: ['66b0e5fb43477e523f52aa95'],

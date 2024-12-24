@@ -63,11 +63,21 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id/username')
+  @Patch(':id/updateUser')
   @ApiParam({ name: 'id', type: String, description: 'User id' })
   @ApiBody({ type: [UpdateUserDto] })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+    const{username, playlists} = updateUserDto;
+    return this.userService.update(id, username, playlists);
+  }
+
+  @Roles(Role.Admin)
+  @Patch(':id/addRole')
+  @ApiParam({ name: 'id', type: String, description: 'User id' })
+  @ApiBody({ type: [UpdateUserDto] })
+  updateRole(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    const{roles} = updateUserDto;
+    return this.userService.updateRole(id, roles);
   }
 
   @Delete(':id')
