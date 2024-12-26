@@ -75,8 +75,8 @@ export class MovieController {
     response.sendFile(filePath);
   }
 
+  @Public()
   @Get('films')
-  @Roles(Role.Admin)
   @UseGuards(AccessGuard)
   async findAll(
     @Req() req: Request & { user: UserDocument },

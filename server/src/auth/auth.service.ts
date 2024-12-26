@@ -29,6 +29,8 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException(MESSAGE.NOT_FOUND);
     } 
+    
+    
     const isValidPassword = user.password !== createAuthDto.password;
     if (isValidPassword)
       throw new UnauthorizedException(MESSAGE.ACCESS_DENIED);

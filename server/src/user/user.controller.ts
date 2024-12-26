@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -67,7 +69,7 @@ export class UserController {
   @ApiParam({ name: 'id', type: String, description: 'User id' })
   @ApiBody({ type: [UpdateUserDto] })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const{username, playlists} = updateUserDto;
+    const { username, playlists } = updateUserDto;
     return this.userService.update(id, username, playlists);
   }
 
@@ -75,10 +77,18 @@ export class UserController {
   @Patch(':id/addRole')
   @ApiParam({ name: 'id', type: String, description: 'User id' })
   @ApiBody({ type: [UpdateUserDto] })
-  updateRole(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const{roles} = updateUserDto;
-    return this.userService.updateRole(id, roles);
+  addUserRole(@Param('id') id: string) {
+    return this.userService.addUserRole(id);
   }
+
+  @Roles(Role.Admin)
+  @Patch(':id/deleteRole')
+  @ApiParam({ name: 'id', type: String, description: 'User id' })
+  @ApiBody({ type: [UpdateUserDto] })
+  deleteUserRole(@Param('id') id: string) {
+    return this.userService.deleteUserRole(id);
+  }
+
 
   @Delete(':id')
   @ApiBearerAuth()

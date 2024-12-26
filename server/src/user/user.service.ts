@@ -39,10 +39,20 @@ export class UserService {
     );
   }
 
-  async updateRole(id: string, roles?: string[]): Promise<User | null> {
+  async addUserRole(id: string): Promise<User | null> {
     return this.userModel.findByIdAndUpdate(
       id,
-      { roles },
+      { $addToSet: { roles: 'admin' } },
+      {
+        new: true,
+      },
+    );
+  }
+
+  async deleteUserRole(id: string): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(
+      id,
+      { $pull: { roles: 'admin' } },
       {
         new: true,
       },

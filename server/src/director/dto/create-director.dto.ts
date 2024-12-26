@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsString, Length } from 'class-validator';
+import { IsDateString, IsString, Length, MaxLength, MinLength } from 'class-validator';
 
 export class CreateDirectorDto {
   @ApiProperty({
@@ -8,7 +8,8 @@ export class CreateDirectorDto {
     example: 'Дэвид Финчер',
   })
   @IsString()
-  @Length(3, 30)
+  @MinLength(3)
+  @MaxLength(40)
   name: string;
 
   @ApiProperty({

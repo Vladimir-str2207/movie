@@ -5,6 +5,8 @@ import {
   IsBoolean,
   IsString,
   Length,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class CreatePlaylistDto {
@@ -15,7 +17,8 @@ export class CreatePlaylistDto {
     required: true,
   })
   @IsString()
-  @Length(1, 20)
+  @MinLength(1)
+  @MaxLength(20)
   title: string;
 
   @ApiProperty({

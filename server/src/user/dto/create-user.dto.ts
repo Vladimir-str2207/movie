@@ -1,13 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsArray,
+  Equals,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
-  Length,
-  Max,
   MaxLength,
-  Min,
   MinLength,
 } from 'class-validator'
 
@@ -25,10 +23,21 @@ export class CreateUserDto {
   @ApiProperty({ type: String, description: 'nickname', example: 'lima' })
   @IsNotEmpty()
   @IsString()
-  @Length(3,15)
   @MinLength(3)
   @MaxLength(15)
   username: string;
+
+  @ApiProperty({
+    required: false,
+    enum: ['admin', 'user'],
+    default: 'user',
+    type: [String],
+    description: 'роли',
+    example: ['user'],
+  })
+  @IsOptional()
+  @Equals('user')
+  roles?: string[];
 
   @ApiProperty({
     required: true,
@@ -44,12 +53,4 @@ export class CreateUserDto {
   @MaxLength(20)
   password: string;
 
-
-  @ApiProperty({
-    type: [String],
-    description: 'Id плейлистов',
-    example: ['66b0e5fb43477e523f52aa95'],
-  })
-  @IsArray()
-  playlists?: string[];
 }

@@ -6,13 +6,15 @@ import {
   IsArray,
   IsBoolean,
   IsString,
-  Length,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 
 export class UpdatePlaylistDto extends PartialType(CreatePlaylistDto) {
   @ApiProperty({ type: String })
   @IsString()
-  @Length(1, 20)
+  @MinLength(1)
+  @MaxLength(20)
   title?: string;
 
   @ApiProperty({ type: [String] })

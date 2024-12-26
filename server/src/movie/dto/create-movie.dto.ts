@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsString, Length } from 'class-validator';
+import { IsArray, IsNumber, IsString, Length, MaxLength, MinLength } from 'class-validator';
 
 export class CreateMovieDto {
   @ApiProperty({
@@ -11,11 +11,14 @@ export class CreateMovieDto {
     maxLength: 30,
   })
   @IsString()
-  @Length(3, 30)
+  @MinLength(3)
+  @MaxLength(50)
   title: string;
 
   @ApiProperty({ type: Number, description: 'Год выпуска', example: 2023 })
   @IsNumber()
+  @MinLength(2)
+  @MaxLength(4)
   year: number;
 
   @ApiProperty({
@@ -24,6 +27,8 @@ export class CreateMovieDto {
     example: 120,
   })
   @IsNumber()
+  @MinLength(2)
+  @MaxLength(3)
   duration: number;
 
   @ApiProperty({
@@ -31,7 +36,7 @@ export class CreateMovieDto {
     description: 'Id жанра фильма',
     example: ['669e73554a5ff881af4af312', '669e73554a5ff881af4af504'],
   })
-  @IsArray()
+  @IsString()
   genre: string[];
 
   @ApiProperty({
@@ -39,7 +44,7 @@ export class CreateMovieDto {
     description: 'Id режиссера фильма',
     example: ['669e74044a5ff881af4af314'],
   })
-  @IsArray()
+  @IsString()
   director: string[];
 
   @ApiProperty({
@@ -47,7 +52,7 @@ export class CreateMovieDto {
     description: 'Id рецензий к фильму',
     example: ['669e74044a5ff881af4af314'],
   })
-  @IsArray()
+  @IsString()
   reviews?: string[];
 
   @ApiProperty({ type: String, description: 'Путь к постеру' })
