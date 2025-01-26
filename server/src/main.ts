@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Movies API 1.0')
+    .setTitle('Movies')
     .setDescription('Документация проекта Movies')
     .addBearerAuth()
     .build();
@@ -15,7 +15,7 @@ async function bootstrap() {
   SwaggerModule.setup('/docs', app, document);
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
-  app.enableCors();
+  app.enableCors({ origin: true, });
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(port);
 }

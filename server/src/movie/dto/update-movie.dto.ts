@@ -1,7 +1,16 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateMovieDto } from './create-movie.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, Length, MaxLength, MinLength, minLength } from 'class-validator';
+import {
+  IsNumber,
+  IsString,
+  Length,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+  minLength,
+} from 'class-validator';
 
 export class UpdateMovieDto extends PartialType(CreateMovieDto) {
   @ApiProperty({ type: String, minLength: 3, maxLength: 30 })
@@ -37,4 +46,11 @@ export class UpdateMovieDto extends PartialType(CreateMovieDto) {
   @ApiProperty({ type: String })
   @IsString()
   poster_path: string;
+
+  @ApiProperty({ type: Boolean })
+  video?: boolean;
+
+  @ApiProperty({ type: String, description: 'описание фильма' })
+  @IsString()
+  description?: string;
 }

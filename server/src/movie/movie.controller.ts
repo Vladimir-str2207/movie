@@ -27,6 +27,7 @@ import { PlaylistService } from 'src/playlist/playlist.service';
 import { AuthService } from 'src/auth/auth.service';
 import * as path from 'path';
 import * as fs from 'fs';
+import { UpdateRatingDto } from './dto/urdate-rating.dto';
 
 @ApiTags('movie')
 @Controller('movie')
@@ -104,9 +105,20 @@ export class MovieController {
   @Roles(Role.Admin)
   async update(
     @Param('id') id: string,
-    @Body() updateMovieDto: UpdateMovieDto,
+    @Body() { title, year, duration, genre, director, poster_path, description }: UpdateMovieDto,
   ) {
-    return this.movieService.update(id, updateMovieDto);
+    return this.movieService.update(id, { title, year, duration, genre, director, poster_path, description });
+  }
+
+  @Post(':id/addRating')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id', type: String, description: 'Movie id' })
+  @ApiBody({ type: [UpdateRatingDto] })
+  async addRating(
+    @Param('id') id: string,
+    @Body() { voteCount }: UpdateRatingDto,
+  ) {
+    return this.movieService.addRating(id, { voteCount });
   }
 
   @Delete(':id')

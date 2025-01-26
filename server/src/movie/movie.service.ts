@@ -6,6 +6,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { UserDocument } from 'src/user/user.schema';
 import * as NodeCache from 'node-cache';
+import { UpdateRatingDto } from './dto/urdate-rating.dto';
 const myCache = new NodeCache({ stdTTL: 600, checkperiod: 620 });
 
 @Injectable()
@@ -37,19 +38,50 @@ export class MovieService {
 
   async findOne(id: string, user?: UserDocument): Promise<Movie | null> {
     if (user) {
-      return this.movieModel.findById(id);
+      const movie = this.movieModel
+        .findById(id)
+        .populate('reviews', 'estimation');
+      return movie;
     }
     return this.movieModel.findById(id).select('title');
   }
 
   async update(
     id: string,
-    updateMovieDto: UpdateMovieDto,
+    { title, year, duration, genre, director, poster_path, description }: UpdateMovieDto,
   ): Promise<Movie | null> {
     myCache.del('movies');
-    return await this.movieModel.findByIdAndUpdate(id, updateMovieDto, {
+    return await this.movieModel.findByIdAndUpdate(id, { title, year, duration, genre, director, poster_path, description }, {
       new: true,
     });
+  }
+
+  async addRating(id: string, { voteCount }: UpdateRatingDto) {
+    const movie = await this.movieModel.findById(id);
+    if (!movie) {
+      throw new Error('Movie not found');
+    }
+    await this.movieModel.updateOne(
+      { _id: movie },
+      { $push: { voteCount: voteCount } },
+      {
+        new: true,
+      },
+    );
+    await this.updateRating(movie);
+
+    return movie.save();
+  }
+
+  async updateRating(movie: Movie) {
+    const totalVotes = movie?.voteCount.length;
+    const sumVotes = movie?.voteCount.reduce(
+      (acc: number, vote: number) => acc + vote,
+      0,
+    );
+    const averageRating = totalVotes > 0 ? sumVotes / totalVotes : 0;
+
+    return movie.rating = Math.round(averageRating * 10) / 10;
   }
 
   async remove(

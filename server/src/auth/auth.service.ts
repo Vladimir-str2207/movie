@@ -30,7 +30,6 @@ export class AuthService {
       throw new NotFoundException(MESSAGE.NOT_FOUND);
     } 
     
-    
     const isValidPassword = user.password !== createAuthDto.password;
     if (isValidPassword)
       throw new UnauthorizedException(MESSAGE.ACCESS_DENIED);
@@ -49,7 +48,7 @@ export class AuthService {
     }
     const clientUrl = this.configService.get('CLIENT_URL');
     const token = this.generateToken(
-      user.id.toString(),
+      user.id,
       user.email,
       user.roles,
     );
@@ -67,7 +66,9 @@ export class AuthService {
     const result = user.roles.some((role) =>
       RolePermissions[role].includes(permission),
     );
-    if (!result) throw new UnauthorizedException(MESSAGE.ACCESS_DENIED);
+    if (!result) {
+      throw new UnauthorizedException(MESSAGE.ACCESS_DENIED)
+    };
     return result;
   }
 }

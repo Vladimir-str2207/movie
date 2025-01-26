@@ -28,6 +28,18 @@ export class Movie {
 
   @Prop()
   poster_path: string;
+
+  @Prop({ default: false })
+  video: boolean;
+
+  @Prop({ default: 1 })
+  rating: number;
+
+  @Prop({ default: 1 })
+  voteCount: [number];
+
+  @Prop({ default: " Отличный фильм! " })
+  description: string;
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

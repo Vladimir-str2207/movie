@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsString, Length, MaxLength, MinLength } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsString,
+  Length,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateMovieDto {
   @ApiProperty({
@@ -58,4 +66,12 @@ export class CreateMovieDto {
   @ApiProperty({ type: String, description: 'Путь к постеру' })
   @IsString()
   poster_path: string;
+
+  @ApiProperty({ type: Boolean, description: 'видео' })
+  @IsBoolean()
+  video?: boolean;
+
+  @ApiProperty({ type: String, description: 'описание фильма' })
+  @IsString()
+  description: string;
 }

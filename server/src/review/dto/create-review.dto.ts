@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsString, Max, Min } from 'class-validator';
 
 export class CreateReviewDto {
   @ApiProperty({
@@ -11,23 +11,19 @@ export class CreateReviewDto {
   @IsString()
   text: string;
 
-  @ApiProperty({ type: Number, description: 'оценка фильма', example: 5 })
-  @IsNumber()
-  estimation: number;
-
   @ApiProperty({
-    type: [String],
+    type: String,
     description: 'id автора рецензии',
-    example: ['66a64c313967c6db6b7d4662'],
+    example: '66a64c313967c6db6b7d4662',
   })
-  @IsArray()
+  @IsString()
   user?: string;
 
   @ApiProperty({
-    type: [String],
+    type: String,
     description: 'id фильма',
-    example: ['66a64c313967c6db6b7d4662'],
+    example: '66a64c313967c6db6b7d4662',
   })
-  @IsArray()
-  movie: string[];
+  @IsString()
+  movie: string;
 }
